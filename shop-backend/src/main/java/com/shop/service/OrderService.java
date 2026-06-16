@@ -2,7 +2,10 @@ package com.shop.service;
 
 import com.shop.common.PageResult;
 import com.shop.dto.OrderSubmitRequest;
+import com.shop.entity.OrderItem;
 import com.shop.entity.Orders;
+
+import java.util.List;
 
 public interface OrderService {
 
@@ -16,7 +19,15 @@ public interface OrderService {
 
     void cancelOrder(Long userId, Long orderId);
 
+    void completeOrder(Long userId, Long orderId);
+
     void confirmOrder(Long orderId);
 
     void shipOrder(Long orderId);
+
+    PageResult<Orders> listAllOrders(int page, int size, Integer status);
+
+    Orders getAdminOrderDetail(Long orderId);
+
+    List<OrderItem> getOrderItems(Long orderId);
 }

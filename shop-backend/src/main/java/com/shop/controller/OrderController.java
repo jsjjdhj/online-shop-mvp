@@ -3,12 +3,16 @@ package com.shop.controller;
 import com.shop.common.PageResult;
 import com.shop.common.Result;
 import com.shop.dto.OrderSubmitRequest;
+import com.shop.entity.OrderItem;
 import com.shop.entity.Orders;
 import com.shop.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -34,9 +38,11 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public Result<Orders> detail(HttpServletRequest request, @PathVariable Long orderId) {
+    public Result<Map<String, Object>> detail(HttpServletRequest request, @PathVariable Long orderId) {
         Long userId = (Long) request.getAttribute("userId");
-        return Result.success(orderService.getOrderDetail(userId, orderId));
+        Orders order = orderService.getOrderDetail(userId, orderId);
+        List<OrderItem> items = orderService.getOrderItems(orderId);
+        return Result.success(Map.of("order", order, "items", items));
     }
 
     @PostMapping("/{orderId}/pay")
@@ -50,6 +56,13 @@ public class OrderController {
     public Result<Void> cancel(HttpServletRequest request, @PathVariable Long orderId) {
         Long userId = (Long) request.getAttribute("userId");
         orderService.cancelOrder(userId, orderId);
+        return Result.success();
+    }
+
+    @PostMapping("/{orderId}/complete")
+    public Result<Void> complete(HttpServletRequest request, @PathVariable Long orderId) {
+        Long userId = (Long) request.getAttribute("userId");
+        orderService.completeOrder(userId, orderId);
         return Result.success();
     }
 }

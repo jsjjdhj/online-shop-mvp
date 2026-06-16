@@ -1,8 +1,10 @@
 package com.shop.controller;
 
+import com.shop.common.BusinessException;
 import com.shop.common.PageResult;
 import com.shop.common.Result;
 import com.shop.dto.ProductRequest;
+import com.shop.entity.OrderItem;
 import com.shop.entity.Orders;
 import com.shop.entity.Product;
 import com.shop.service.OrderService;
@@ -12,6 +14,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -20,7 +25,7 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
 
-    // ---- 商品管理 ----
+    // ==================== 商品管理 ====================
 
     @PostMapping("/products")
     public Result<Void> createProduct(HttpServletRequest request,
@@ -51,10 +56,30 @@ public class AdminController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String keyword) {
+        // 管理员可以看到所有商品（包括已下架的）
         return Result.success(productService.listProducts(page, size, keyword));
     }
 
-    // ---- 订单管理 ----
+    // ==================== 订单管理 ====================
+
+    @GetMapping("/orders")
+    public Result<PageResult<Orders>> listOrders(
+            HttpServletRequest request,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Integer status) {
+        checkAdmin(request);
+        return Result.success(orderService.listAllOrders(page, size, status));
+    }
+
+    @GetMapping("/orders/{orderId}")
+    public Result<Map<String, Object>> getOrderDetail(
+            HttpServletRequest request, @PathVariable Long orderId) {
+        checkAdmin(request);
+        Orders order = orderService.getAdminOrderDetail(orderId);
+        List<OrderItem> items = orderService.getOrderItems(orderId);
+        return Result.success(Map.of("order", order, "items", items));
+    }
 
     @PostMapping("/orders/{orderId}/confirm")
     public Result<Void> confirmOrder(HttpServletRequest request, @PathVariable Long orderId) {
@@ -70,17 +95,10 @@ public class AdminController {
         return Result.success();
     }
 
-    @GetMapping("/orders")
-    public Result<PageResult<Orders>> listOrders(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return Result.success(new PageResult<>(0, page, size, java.util.List.of()));
-    }
-
     private void checkAdmin(HttpServletRequest request) {
         String role = (String) request.getAttribute("role");
         if (!"ADMIN".equals(role)) {
-            throw new com.shop.common.BusinessException(403, "无管理员权限");
+            throw new BusinessException(403, "无管理员权限");
         }
     }
 }

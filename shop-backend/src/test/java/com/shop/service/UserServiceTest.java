@@ -4,38 +4,72 @@ import com.shop.ShopApplication;
 import com.shop.common.BusinessException;
 import com.shop.dto.LoginRequest;
 import com.shop.dto.RegisterRequest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = ShopApplication.class)
+@Transactional
 class UserServiceTest {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
     @Test
-    void testRegister_Success() {
-        RegisterRequest req = new RegisterRequest();
-        req.setUsername("testuser_" + System.currentTimeMillis());
-        req.setPassword("Test1234");
-        req.setConfirmPassword("Test1234");
-        Assertions.assertDoesNotThrow(() -> userService.register(req));
+    void testRegisterAndLogin_Success() {
+        String u = "usr_" + System.nanoTime();
+        RegisterRequest r = new RegisterRequest();
+        r.setUsername(u); r.setPassword("Test1234"); r.setConfirmPassword("Test1234");
+        assertDoesNotThrow(() -> userService.register(r));
+        LoginRequest l = new LoginRequest();
+        l.setUsername(u); l.setPassword("Test1234");
+        var resp = assertDoesNotThrow(() -> userService.login(l));
+        assertNotNull(resp.getToken());
+        assertEquals(u, resp.getUsername());
     }
 
     @Test
-    void testRegister_DuplicateUsername() {
-        // 实际测试中可插入一个已知用户并尝试重复注册
+    void testRegister_Duplicate() {
+        String u = "usr_" + System.nanoTime();
+        RegisterRequest r = new RegisterRequest();
+        r.setUsername(u); r.setPassword("Test1234"); r.setConfirmPassword("Test1234");
+        userService.register(r);
+        assertThrows(BusinessException.class, () -> userService.register(r));
+    }
+
+    @Test
+    void testRegister_PasswordMismatch() {
+        RegisterRequest r = new RegisterRequest();
+        r.setUsername("mm_" + System.nanoTime());
+        r.setPassword("Test1234"); r.setConfirmPassword("Mismatch1");
+        assertThrows(BusinessException.class, () -> userService.register(r));
+    }
+
+    @Test
+    void testLogin_WrongPassword() {
+        String u = "usr_" + System.nanoTime();
+        RegisterRequest r = new RegisterRequest();
+        r.setUsername(u); r.setPassword("Test1234"); r.setConfirmPassword("Test1234");
+        userService.register(r);
+        LoginRequest l = new LoginRequest();
+        l.setUsername(u); l.setPassword("WrongPwd1");
+        assertThrows(BusinessException.class, () -> userService.login(l));
     }
 
     @Test
     void testLogin_LockAfter5Failures() {
-        // 创建临时用户，连续5次输错密码，验证锁定
-    }
-
-    @Test
-    void testLogin_UnlockAfterLockDuration() {
-        // 锁定后等待（或mock时间）验证自动解锁
+        String u = "usr_" + System.nanoTime();
+        RegisterRequest r = new RegisterRequest();
+        r.setUsername(u); r.setPassword("Test1234"); r.setConfirmPassword("Test1234");
+        userService.register(r);
+        LoginRequest w = new LoginRequest();
+        w.setUsername(u); w.setPassword("WrongPwd1");
+        for (int i = 0; i < 4; i++) {
+            assertThrows(BusinessException.class, () -> userService.login(w));
+        }
+        BusinessException e = assertThrows(BusinessException.class, () -> userService.login(w));
+        assertTrue(e.getMessage().contains("已锁定"),
+            "Expected lock message, got: " + e.getMessage());
     }
 }
