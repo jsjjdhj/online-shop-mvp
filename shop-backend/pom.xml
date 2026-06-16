@@ -121,6 +121,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/shop/entity/*</exclude>
+                        <exclude>com/shop/dto/*</exclude>
+                        <exclude>com/shop/repository/*</exclude>
+                        <exclude>com/shop/config/*</exclude>
+                        <exclude>com/shop/ShopApplication.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -135,6 +144,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Surefire 配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <argLine>-Xmx512m @{argLine}</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
