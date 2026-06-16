@@ -1,0 +1,61 @@
+﻿# ==============================================
+# 在线购物平台 MVP - Git 忽略规则
+# 软件质量与测试课 2025-2026-2 学期
+# ==============================================
+
+# --- Java / Maven ---
+shop-backend/target/
+*.class
+*.jar
+*.war
+*.jar.original
+shop-backend/logs/
+shop-backend/out/
+shop-backend/.settings/
+shop-backend/.project
+shop-backend/HELP.md
+
+# --- IDE ---
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Node / Frontend ---
+shop-frontend/node_modules/
+shop-frontend/dist/
+shop-frontend/.vite/
+shop-frontend/*.local
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# --- Environment ---
+.env
+.env.local
+.env.*.local
+shop-backend/src/main/resources/application-local.yml
+
+# --- Test artifacts ---
+shop-frontend/tests/e2e/test-results/
+shop-frontend/tests/e2e/playwright-report/
+
+# --- Temp files ---
+temp_*.sql
+temp_*.py
+gen_*.py
