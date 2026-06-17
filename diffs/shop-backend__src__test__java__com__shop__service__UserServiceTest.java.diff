@@ -1,0 +1,8 @@
+--- current/shop-backend\src\test\java\com\shop\service\UserServiceTest.java
++++ unmerged/shop-backend\src\test\java\com\shop\service\UserServiceTest.java
+@@ -231,4 +231,4 @@
+         assertNotNull(current);
+         assertEquals(u, current.getUsername());
+     }
+-}
++}

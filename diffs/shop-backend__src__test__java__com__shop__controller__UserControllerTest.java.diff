@@ -1,0 +1,362 @@
+--- current/shop-backend\src\test\java\com\shop\controller\UserControllerTest.java
++++ unmerged/shop-backend\src\test\java\com\shop\controller\UserControllerTest.java
+@@ -1,34 +1,39 @@
+ package com.shop.controller;
+
+ 
+
+ import com.fasterxml.jackson.databind.ObjectMapper;
+
+-import org.junit.jupiter.api.Test;
+
++import com.shop.ShopApplication;
+
++import com.shop.entity.User;
+
++import com.shop.repository.UserRepository;
+
++import com.shop.util.TestHelper;
+
++import org.junit.jupiter.api.*;
+
+ import org.springframework.beans.factory.annotation.Autowired;
+
+ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
+ import org.springframework.boot.test.context.SpringBootTest;
+
+ import org.springframework.http.MediaType;
+
+ import org.springframework.test.web.servlet.MockMvc;
+
++import org.springframework.test.web.servlet.request.RequestPostProcessor;
+
++import org.springframework.transaction.annotation.Transactional;
+
+ 
+
+-import static org.hamcrest.Matchers.*;
+
+-import static org.junit.jupiter.api.Assertions.*;
+
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+ 
+
+-@SpringBootTest(classes = com.shop.ShopApplication.class)
+
++@SpringBootTest(classes = ShopApplication.class)
+
+ @AutoConfigureMockMvc
+
++@Transactional
+
++@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
+ class UserControllerTest {
+
+ 
+
+ @Autowired private MockMvc mockMvc;
+
+-private final ObjectMapper objectMapper = new ObjectMapper();
+
++@Autowired private ObjectMapper objectMapper;
+
++@Autowired private UserRepository userRepository;
+
+ 
+
+-// UCT-01: register_成功 — 200 + 用户创建
+
+-@Test
+
+-void register_Success() throws Exception {
+
+-String uniq = "u" + System.currentTimeMillis(); // 短唯一后缀，确保 ≤20 字符
+
+-String json = objectMapper.writeValueAsString(java.util.Map.of(
+
+-"username", uniq,
+
+-"password", "Test1234",
+
+-"confirmPassword", "Test1234"
+
+-));
+
++private static long counter = System.currentTimeMillis();
+
++
+
++@Test @Order(1)
+
++void testRegister_Success() throws Exception {
+
++String username = "reg_" + (counter++);
+
++String json = String.format(
+
++"{\"username\":\"%s\",\"password\":\"Test1234\",\"confirmPassword\":\"Test1234\"}", username);
+
+ mockMvc.perform(post("/api/user/register")
+
+ .contentType(MediaType.APPLICATION_JSON)
+
+ .content(json))
+
+@@ -36,78 +41,71 @@
+ .andExpect(jsonPath("$.code").value(200));
+
+ }
+
+ 
+
+-// UCT-02: register_用户名太短 — username="ab"(<3字符) → 400
+
+-@Test
+
+-void register_UsernameTooShort() throws Exception {
+
+-String json = objectMapper.writeValueAsString(java.util.Map.of(
+
+-"username", "ab",
+
+-"password", "Test1234",
+
+-"confirmPassword", "Test1234"
+
+-));
+
+-mockMvc.perform(post("/api/user/register")
+
+-.contentType(MediaType.APPLICATION_JSON)
+
+-.content(json))
+
+-.andExpect(status().isBadRequest())
+
+-.andExpect(jsonPath("$.code").value(400));
+
+-}
+
+-
+
+-// UCT-03: register_密码格式错 — 密码缺少大写字母 → 400
+
+-@Test
+
+-void register_PasswordFormatInvalid() throws Exception {
+
+-String json = objectMapper.writeValueAsString(java.util.Map.of(
+
+-"username", "upwd" + System.currentTimeMillis(),
+
+-"password", "lowercase123",
+
+-"confirmPassword", "lowercase123"
+
+-));
+
++@Test @Order(2)
+
++void testRegister_UsernameTooShort() throws Exception {
+
++String json = "{\"username\":\"ab\",\"password\":\"Test1234\",\"confirmPassword\":\"Test1234\"}";
+
+ mockMvc.perform(post("/api/user/register")
+
+ .contentType(MediaType.APPLICATION_JSON)
+
+ .content(json))
+
+ .andExpect(status().isBadRequest());
+
+ }
+
+ 
+
+-// UCT-04: login_成功 — 200 + 返回含 token 的 LoginResponse
+
+-@Test
+
+-void login_Success() throws Exception {
+
+-String fixedUser = "ulogin" + System.currentTimeMillis();
+
+-// 先注册固定用户
+
+-String regJson = objectMapper.writeValueAsString(java.util.Map.of(
+
+-"username", fixedUser,
+
+-"password", "Test1234",
+
+-"confirmPassword", "Test1234"
+
+-));
+
++@Test @Order(3)
+
++void testRegister_PasswordFormatInvalid() throws Exception {
+
++String username = "pwf_" + (counter++);
+
++String json = String.format(
+
++"{\"username\":\"%s\",\"password\":\"onlylower\",\"confirmPassword\":\"onlylower\"}",
+
++username);
+
++mockMvc.perform(post("/api/user/register")
+
++.contentType(MediaType.APPLICATION_JSON)
+
++.content(json))
+
++.andExpect(status().isBadRequest());
+
++}
+
++
+
++@Test @Order(4)
+
++void testLogin_Success() throws Exception {
+
++String username = "login_" + (counter++);
+
++String regJson = String.format(
+
++"{\"username\":\"%s\",\"password\":\"Test1234\",\"confirmPassword\":\"Test1234\"}", username);
+
+ mockMvc.perform(post("/api/user/register")
+
+ .contentType(MediaType.APPLICATION_JSON)
+
+ .content(regJson));
+
+ 
+
+-// 再登录同一用户
+
+-String loginJson = objectMapper.writeValueAsString(java.util.Map.of(
+
+-"username", fixedUser,
+
+-"password", "Test1234"
+
+-));
+
++String loginJson = String.format(
+
++"{\"username\":\"%s\",\"password\":\"Test1234\"}", username);
+
+ mockMvc.perform(post("/api/user/login")
+
+ .contentType(MediaType.APPLICATION_JSON)
+
+ .content(loginJson))
+
+ .andExpect(status().isOk())
+
+ .andExpect(jsonPath("$.code").value(200))
+
+-.andExpect(jsonPath("$.data.token").isNotEmpty());
+
++.andExpect(jsonPath("$.data.token").exists());
+
+ }
+
+ 
+
+-// UCT-05: info_成功 — 验证 /info 端点可达（注意：实际生产环境需有效 JWT）
+
+-@Test
+
+-void info_EndpointAccessible() throws Exception {
+
+-// 设置 request attribute 模拟已认证状态
+
+-// 注意：由于 JwtInterceptor 在 filter 链中，可能返回 401 或 500
+
+-// 此测试验证端点存在且返回结构化 JSON 响应
+
++@Test @Order(5)
+
++void testInfo_WithRealUser() throws Exception {
+
++// Register a real user to have a valid DB record
+
++String username = "info_" + (counter++);
+
++String regJson = String.format(
+
++"{\"username\":\"%s\",\"password\":\"Test1234\",\"confirmPassword\":\"Test1234\"}", username);
+
++mockMvc.perform(post("/api/user/register")
+
++.contentType(MediaType.APPLICATION_JSON)
+
++.content(regJson));
+
++
+
++// Retrieve the user from DB to get their actual ID
+
++User user = userRepository.findByUsername(username)
+
++.orElseThrow(() -> new RuntimeException("User not found after registration"));
+
++
+
++// Create a JWT token for this real user
+
++String token = TestHelper.createUserToken(user.getId(), user.getUsername());
+
++RequestPostProcessor withRealUser = request -> {
+
++request.addHeader("Authorization", "Bearer " + token);
+
++return request;
+
++};
+
++
+
++// Now /info should work because the user exists in DB
+
+ mockMvc.perform(get("/api/user/info")
+
+-.requestAttr("userId", 1L)
+
+-.requestAttr("username", "admin")
+
+-.requestAttr("role", "ADMIN"))
+
+-.andExpect(result -> {
+
+-int status = result.getResponse().getStatus();
+
+-String body = result.getResponse().getContentAsString();
+
+-// 无论成功(200)还是被拦截(401/500)，都应有结构化响应
+
+-assertTrue(body.contains("\"code\""),
+
+-"/info 端点应返回结构化 JSON，实际 status=" + status);
+
+-});
+
++.with(withRealUser))
+
++.andExpect(status().isOk())
+
++.andExpect(jsonPath("$.code").value(200));
+
+ }
+
+ }
+

@@ -1,0 +1,8 @@
+--- current/shop-backend\src\test\java\com\shop\service\CartServiceTest.java
++++ unmerged/shop-backend\src\test\java\com\shop\service\CartServiceTest.java
+@@ -349,4 +349,4 @@
+         List<Cart> carts = cartService.listCartItems(userId);
+         assertEquals(2, carts.size());
+     }
+-}
++}

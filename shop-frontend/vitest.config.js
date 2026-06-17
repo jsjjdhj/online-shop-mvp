@@ -11,6 +11,14 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['tests/unit/**/*.spec.js']
+    setupFiles: ['tests/unit/setup.js'],
+    include: ['tests/unit/**/*.spec.js'],
+    reporters: [
+      'verbose',
+      ['junit', { outputFile: 'test-results/junit.xml', suiteName: 'shop-frontend-unit-tests' }]
+    ],
+    outputFile: {
+      junit: 'test-results/junit.xml'
+    }
   }
 })

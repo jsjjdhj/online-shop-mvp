@@ -25,8 +25,6 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
 
-    // ==================== 商品管理 ====================
-
     @PostMapping("/products")
     public Result<Void> createProduct(HttpServletRequest request,
                                       @Valid @RequestBody ProductRequest productRequest) {
@@ -53,14 +51,13 @@ public class AdminController {
 
     @GetMapping("/products")
     public Result<PageResult<Product>> listProducts(
+            HttpServletRequest request,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String keyword) {
-        // 管理员可以看到所有商品（包括已下架的）
+        checkAdmin(request);
         return Result.success(productService.listProducts(page, size, keyword));
     }
-
-    // ==================== 订单管理 ====================
 
     @GetMapping("/orders")
     public Result<PageResult<Orders>> listOrders(

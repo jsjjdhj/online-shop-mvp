@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:report": "node scripts/generate-report.js",
+    "test:all": "vitest run && node scripts/generate-report.js"
   },
   "dependencies": {
     "vue": "^3.4.27",

@@ -1,0 +1,19 @@
+--- current/shop-frontend\package.json
++++ unmerged/shop-frontend\package.json
+@@ -8,6 +8,8 @@
+ "build": "vite build",
+
+ "preview": "vite preview",
+
+ "test:unit": "vitest run",
+
++"test:report": "node scripts/generate-report.js",
+
++"test:all": "vitest run && node scripts/generate-report.js",
+
+ "test:e2e": "playwright test"
+
+ },
+
+ "dependencies": {
+

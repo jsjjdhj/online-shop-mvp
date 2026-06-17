@@ -1,0 +1,17 @@
+--- current/shop-backend\src\main\java\com\shop\service\impl\CartServiceImpl.java
++++ unmerged/shop-backend\src\main\java\com\shop\service\impl\CartServiceImpl.java
+@@ -30,6 +30,7 @@
+ throw new BusinessException("添加数量不能超过99");
+
+ }
+
+ Product product = productRepository.selectById(request.getProductId());
+
++
+
+ if (product == null || product.getDeleted() == 1 || product.getStatus() != 0) {
+
+ throw new BusinessException("商品不存在或已下架");
+
+ }
+

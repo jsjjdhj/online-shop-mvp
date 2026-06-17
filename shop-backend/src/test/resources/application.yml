@@ -1,0 +1,34 @@
+# 测试环境配置 - 使用 H2 内存数据库
+spring:
+  datasource:
+    url: jdbc:h2:mem:shop_dev;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/init.sql
+  h2:
+    console:
+      enabled: true
+  # 禁用 Redis 相关配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# JWT 配置（与主配置保持一致）
+jwt:
+  secret: YOUR_BASE64_ENCODED_SECRET_KEY_HERE
+  expiration: 86400000
+
+# 日志
+logging:
+  level:
+    org.springframework.jdbc: debug
+    com.shop: debug

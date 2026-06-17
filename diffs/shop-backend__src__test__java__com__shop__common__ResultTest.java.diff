@@ -1,0 +1,181 @@
+--- current/shop-backend\src\test\java\com\shop\common\ResultTest.java
++++ unmerged/shop-backend\src\test\java\com\shop\common\ResultTest.java
+@@ -1,58 +1,63 @@
+ package com.shop.common;
+
+ 
+
+ import org.junit.jupiter.api.Test;
+
++
+
+ import static org.junit.jupiter.api.Assertions.*;
+
+ 
+
+ class ResultTest {
+
+ 
+
+-// R-01: success(data) — code=200, message="操作成功", data=传入值
+
+ @Test
+
+-void success_WithData() {
+
+-String data = "testData";
+
++void testSuccess_WithData() {
+
++String data = "test-data";
+
+ Result<String> result = Result.success(data);
+
++
+
+ assertEquals(200, result.getCode());
+
+ assertEquals("操作成功", result.getMessage());
+
+ assertEquals(data, result.getData());
+
+ }
+
+ 
+
+-// R-02: error(code, msg) — code=传入值, message=传入值, data=null
+
+ @Test
+
+-void error_CodeAndMessage() {
+
+-Result<Void> result = Result.error(403, "forbidden");
+
+-assertEquals(403, result.getCode());
+
+-assertEquals("forbidden", result.getMessage());
+
++void testSuccess_NoData() {
+
++Result<String> result = Result.success();
+
++
+
++assertEquals(200, result.getCode());
+
++assertEquals("操作成功", result.getMessage());
+
+ assertNull(result.getData());
+
+ }
+
+ 
+
+-// R-03: forbidden(msg) — code=403
+
+ @Test
+
+-void forbidden_Message() {
+
+-Result<Void> result = Result.forbidden("no access");
+
+-assertEquals(403, result.getCode());
+
+-assertEquals("no access", result.getMessage());
+
++void testError_WithCode() {
+
++Result<String> result = Result.error(404, "资源未找到");
+
++
+
++assertEquals(404, result.getCode());
+
++assertEquals("资源未找到", result.getMessage());
+
+ assertNull(result.getData());
+
+ }
+
+ 
+
+-// R-04: success() 无参数 — data=null
+
+ @Test
+
+-void success_NoData() {
+
+-Result<Void> result = Result.success();
+
+-assertEquals(200, result.getCode());
+
++void testError_DefaultCode() {
+
++Result<String> result = Result.error("请求参数错误");
+
++
+
++assertEquals(400, result.getCode());
+
++assertEquals("请求参数错误", result.getMessage());
+
+ assertNull(result.getData());
+
+ }
+
+ 
+
+-// R-05: error(msg) 默认 code=400
+
+ @Test
+
+-void error_DefaultCode400() {
+
+-Result<Void> result = Result.error("bad request");
+
+-assertEquals(400, result.getCode());
+
+-assertEquals("bad request", result.getMessage());
+
++void testUnauthorized() {
+
++Result<String> result = Result.unauthorized("未授权访问");
+
++
+
++assertEquals(401, result.getCode());
+
++assertEquals("未授权访问", result.getMessage());
+
++assertNull(result.getData());
+
+ }
+
+ 
+
+-// R-06: unauthorized(msg) — code=401
+
+ @Test
+
+-void unauthorized_Message() {
+
+-Result<Void> result = Result.unauthorized("not logged in");
+
+-assertEquals(401, result.getCode());
+
++void testForbidden() {
+
++Result<String> result = Result.forbidden("禁止访问");
+
++
+
++assertEquals(403, result.getCode());
+
++assertEquals("禁止访问", result.getMessage());
+
++assertNull(result.getData());
+
+ }
+
+ }
+

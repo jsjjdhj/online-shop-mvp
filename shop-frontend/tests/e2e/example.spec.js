@@ -1,12 +1,4 @@
-const { test, expect } = require('@playwright/test')
-</script>
-```
-**注意**: 待实际部署后,请将 `playwright.config.js` 放于此目录。
-```
-</md>
-<style> /* empty */ </style>
-<script> /* empty */ </script>
-const { test, expect } = require('@playwright/test')
+import { test, expect } from '@playwright/test'
 
 test('首页包含课程标识', async ({ page }) => {
   await page.goto('http://localhost:3000')
