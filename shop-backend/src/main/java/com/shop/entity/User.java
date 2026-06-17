@@ -20,6 +20,7 @@ public class User {
 
     private Integer status;          // 0-正常, 1-锁定
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime lockTime;  // 锁定到期时间
 
     private Integer failCount;       // 连续登录失败次数

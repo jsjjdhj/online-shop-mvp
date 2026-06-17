@@ -23,6 +23,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItem(Long userId, CartRequest request) {
+        if (request.getQuantity() < 1) {
+            throw new BusinessException("添加数量不能小于1");
+        }
+        if (request.getQuantity() > 99) {
+            throw new BusinessException("添加数量不能超过99");
+        }
         Product product = productRepository.selectById(request.getProductId());
         if (product == null || product.getDeleted() == 1 || product.getStatus() != 0) {
             throw new BusinessException("商品不存在或已下架");
