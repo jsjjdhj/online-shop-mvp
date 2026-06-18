@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="shop-frontend-unit-tests" tests="62" failures="0" errors="0" time="75.663">
+    <testsuite name="tests/unit/Cart.spec.js" timestamp="2026-06-18T06:24:33.151Z" hostname="empty-2016" tests="4" failures="0" errors="0" skipped="0" time="0.112">
+        <testcase classname="tests/unit/Cart.spec.js" name="Cart.vue &gt; 空购物车时显示空状态" time="0.081">
+            <system-err>
+[Vue Router warn]: No match found for location with path &quot;/&quot;
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/unit/Cart.spec.js" name="Cart.vue &gt; 有商品时计算合计金额" time="0.01">
+        </testcase>
+        <testcase classname="tests/unit/Cart.spec.js" name="Cart.vue &gt; unitPrice 格式化正确" time="0.008">
+        </testcase>
+        <testcase classname="tests/unit/Cart.spec.js" name="Cart.vue &gt; subtotal 计算正确" time="0.012">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/Checkout.spec.js" timestamp="2026-06-18T06:24:33.153Z" hostname="empty-2016" tests="3" failures="0" errors="0" skipped="0" time="0.228">
+        <testcase classname="tests/unit/Checkout.spec.js" name="Checkout.vue &gt; 渲染结算页面标题" time="0.172">
+            <system-err>
+[Vue Router warn]: No match found for location with path &quot;/&quot;
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/unit/Checkout.spec.js" name="Checkout.vue &gt; 渲染收货信息表单字段" time="0.031">
+        </testcase>
+        <testcase classname="tests/unit/Checkout.spec.js" name="Checkout.vue &gt; 包含课程标识" time="0.023">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/CourseBadge.spec.js" timestamp="2026-06-18T06:24:33.154Z" hostname="empty-2016" tests="2" failures="0" errors="0" skipped="0" time="0.165">
+        <testcase classname="tests/unit/CourseBadge.spec.js" name="CourseBadge.vue &gt; 渲染课程标识文本" time="0.134">
+        </testcase>
+        <testcase classname="tests/unit/CourseBadge.spec.js" name="CourseBadge.vue &gt; 包含 course-badge CSS 类" time="0.028">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/example.spec.js" timestamp="2026-06-18T06:24:33.155Z" hostname="empty-2016" tests="1" failures="0" errors="0" skipped="0" time="0.036">
+        <testcase classname="tests/unit/example.spec.js" name="示例测试 &gt; 1 + 1 = 2" time="0.029">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/Home.spec.js" timestamp="2026-06-18T06:24:33.155Z" hostname="empty-2016" tests="2" failures="0" errors="0" skipped="0" time="0.083">
+        <testcase classname="tests/unit/Home.spec.js" name="Home.vue &gt; 渲染搜索栏" time="0.07">
+            <system-err>
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+
+            </system-err>
+        </testcase>
+        <testcase classname="tests/unit/Home.spec.js" name="Home.vue &gt; 渲染页面底部课程标识" time="0.013">
+            <system-err>
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Search
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+[Vue warn]: Failed to resolve component: Goods
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at &lt;Home ref=&quot;VTU_COMPONENT&quot; &gt; 
+  at &lt;VTUROOT&gt;
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/Login.spec.js" timestamp="2026-06-18T06:24:33.157Z" hostname="empty-2016" tests="2" failures="0" errors="0" skipped="0" time="0.095">
+        <testcase classname="tests/unit/Login.spec.js" name="Login.vue &gt; 渲染登录表单和课程标识" time="0.074">
+        </testcase>
+        <testcase classname="tests/unit/Login.spec.js" name="Login.vue &gt; 包含注册链接" time="0.02">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/api/order.spec.js" timestamp="2026-06-18T06:24:33.158Z" hostname="empty-2016" tests="9" failures="0" errors="0" skipped="0" time="0.217">
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; submitOrder calls POST /orders with data" time="0.074">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; getOrderList calls GET /orders with params" time="0.022">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; getOrderDetail calls GET /orders/:orderId" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; payOrder calls POST /orders/:id/pay" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; cancelOrder calls POST /orders/:id/cancel" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; confirmOrder calls POST /admin/orders/:id/confirm" time="0.012">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; shipOrder calls POST /admin/orders/:id/ship" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; getAdminOrderList calls GET /admin/orders with params" time="0.019">
+        </testcase>
+        <testcase classname="tests/unit/api/order.spec.js" name="API: order.js &gt; rejects on network error" time="0.041">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/api/product.spec.js" timestamp="2026-06-18T06:24:33.160Z" hostname="empty-2016" tests="7" failures="0" errors="0" skipped="0" time="0.13">
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; getProductList calls GET /products with params" time="0.048">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; getProductDetail calls GET /products/:id" time="0.029">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; createProduct calls POST /admin/products with data" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; updateProduct calls PUT /admin/products/:id with data" time="0.013">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; deleteProduct calls DELETE /admin/products/:id" time="0.011">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; getAdminProductList calls GET /admin/products with params" time="0.001">
+        </testcase>
+        <testcase classname="tests/unit/api/product.spec.js" name="API: product.js &gt; rejects on network error" time="0.023">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/components/common/AppFooter.spec.js" timestamp="2026-06-18T06:24:33.162Z" hostname="empty-2016" tests="3" failures="0" errors="0" skipped="0" time="0.467">
+        <testcase classname="tests/unit/components/common/AppFooter.spec.js" name="AppFooter.vue &gt; renders copyright text" time="0.197">
+        </testcase>
+        <testcase classname="tests/unit/components/common/AppFooter.spec.js" name="AppFooter.vue &gt; renders with correct scoped class" time="0.131">
+        </testcase>
+        <testcase classname="tests/unit/components/common/AppFooter.spec.js" name="AppFooter.vue &gt; includes CourseBadge component" time="0.124">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/components/common/NavHeader.spec.js" timestamp="2026-06-18T06:24:33.163Z" hostname="empty-2016" tests="2" failures="0" errors="0" skipped="0" time="0.57">
+        <testcase classname="tests/unit/components/common/NavHeader.spec.js" name="NavHeader.vue &gt; renders app title and navigation items" time="0.464">
+        </testcase>
+        <testcase classname="tests/unit/components/common/NavHeader.spec.js" name="NavHeader.vue &gt; does not show user menu when not logged in" time="0.074">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/views/admin/Dashboard.spec.js" timestamp="2026-06-18T06:24:33.164Z" hostname="empty-2016" tests="7" failures="0" errors="0" skipped="0" time="0.012">
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; renders admin dashboard layout" time="0.002">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; includes NavHeader and AppFooter" time="0.004">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; shows product management card with description" time="0">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; shows order management card with description" time="0">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; renders cards with clickable cursor style" time="0.002">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; navigates to /admin/products when product card is clicked" time="0.002">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/Dashboard.spec.js" name="Dashboard.vue &gt; navigates to /admin/orders when order card is clicked" time="0.001">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/views/admin/OrderManage.spec.js" timestamp="2026-06-18T06:24:33.166Z" hostname="empty-2016" tests="6" failures="0" errors="0" skipped="0" time="0.131">
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; loads orders on mount" time="0.052">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; renders page title and layout" time="0.01">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; shows confirm button for pending orders" time="0.007">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; calls confirmOrder when confirm button is clicked" time="0.023">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; reloads orders after successful confirm" time="0.028">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/OrderManage.spec.js" name="OrderManage.vue &gt; handles API error gracefully" time="0.011">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/views/admin/ProductManage.spec.js" timestamp="2026-06-18T06:24:33.168Z" hostname="empty-2016" tests="14" failures="0" errors="0" skipped="0" time="0.196">
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; loads products on mount and renders page title" time="0.047">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; includes NavHeader and AppFooter" time="0.007">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; renders &quot;新增商品&quot; button" time="0.009">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; renders edit and 下架 buttons" time="0.008">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; opens dialog when showDialog is set" time="0.009">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; sets isEdit=false and default form for new product" time="0.006">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; resetForm clears all reactive form fields" time="0.008">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; editProduct fills form and opens dialog in edit mode" time="0.009">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; calls createProduct when saving a new product" time="0.027">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; calls updateProduct when saving an existing product" time="0.021">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; calls deleteProduct when handleDelete is called" time="0.014">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; reloads product list after delete" time="0.014">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; handles deleteProduct API error gracefully" time="0.008">
+        </testcase>
+        <testcase classname="tests/unit/views/admin/ProductManage.spec.js" name="ProductManage.vue &gt; editProduct handles products with missing optional fields" time="0.008">
+        </testcase>
+    </testsuite>
+</testsuites>
