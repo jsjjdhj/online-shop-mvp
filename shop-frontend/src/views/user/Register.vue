@@ -1,29 +1,31 @@
 <template>
   <div class="register-page">
-    <div class="register-card">
-      <h2>用户注册</h2>
-      <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleRegister">
-        <el-form-item prop="username">
-          <el-input v-model="form.username" placeholder="用户名（3-20位字母、数字或下划线）" prefix-icon="User" />
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="form.password" type="password" placeholder="密码（8-20位，需包含大小写字母和数字）" prefix-icon="Lock" show-password />
-        </el-form-item>
-        <el-form-item prop="confirmPassword">
-          <el-input v-model="form.confirmPassword" type="password" placeholder="确认密码" prefix-icon="Lock" show-password />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" native-type="submit" :loading="loading" style="width: 100%">
-            提交注册
-          </el-button>
-        </el-form-item>
-      </el-form>
-      <div class="register-footer">
-        <span>已有账号？</span>
-        <el-link type="primary" @click="$router.push('/login')">返回登录</el-link>
+    <div class="register-center">
+      <div class="register-card">
+        <h2>用户注册</h2>
+        <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleRegister">
+          <el-form-item prop="username">
+            <el-input v-model="form.username" placeholder="用户名（3-20位字母、数字或下划线）" prefix-icon="User" />
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input v-model="form.password" type="password" placeholder="密码（8-20位，需包含大小写字母和数字）" prefix-icon="Lock" show-password />
+          </el-form-item>
+          <el-form-item prop="confirmPassword">
+            <el-input v-model="form.confirmPassword" type="password" placeholder="确认密码" prefix-icon="Lock" show-password />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" native-type="submit" :loading="loading" style="width: 100%">
+              提交注册
+            </el-button>
+          </el-form-item>
+        </el-form>
+        <div class="register-footer">
+          <span>已有账号？</span>
+          <el-link type="primary" @click="$router.push('/login')">返回登录</el-link>
+        </div>
       </div>
     </div>
-    <CourseBadge />
+    <AppFooter />
   </div>
 </template>
 
@@ -32,7 +34,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { register as registerApi } from '@/api/user'
-import CourseBadge from '@/components/common/CourseBadge.vue'
+import AppFooter from '@/components/common/AppFooter.vue'
 
 const router = useRouter()
 const loading = ref(false)
@@ -89,9 +91,13 @@ async function handleRegister() {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: #f0f2f5;
+}
+.register-center {
+  flex: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #f0f2f5;
 }
 .register-card {
   width: 480px;

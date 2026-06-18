@@ -1,26 +1,28 @@
 <template>
   <div class="login-page">
-    <div class="login-card">
-      <h2>用户登录</h2>
-      <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
-        <el-form-item prop="username">
-          <el-input v-model="form.username" placeholder="用户名" prefix-icon="User" />
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="form.password" type="password" placeholder="密码" prefix-icon="Lock" show-password />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" native-type="submit" :loading="loading" style="width: 100%">
-            登录
-          </el-button>
-        </el-form-item>
-      </el-form>
-      <div class="login-footer">
-        <span>还没有账号？</span>
-        <el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
+    <div class="login-center">
+      <div class="login-card">
+        <h2>用户登录</h2>
+        <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
+          <el-form-item prop="username">
+            <el-input v-model="form.username" placeholder="用户名" prefix-icon="User" />
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input v-model="form.password" type="password" placeholder="密码" prefix-icon="Lock" show-password />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" native-type="submit" :loading="loading" style="width: 100%">
+              登录
+            </el-button>
+          </el-form-item>
+        </el-form>
+        <div class="login-footer">
+          <span>还没有账号？</span>
+          <el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
+        </div>
       </div>
     </div>
-    <CourseBadge />
+    <AppFooter />
   </div>
 </template>
 
@@ -30,7 +32,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login as loginApi } from '@/api/user'
 import { useUserStore } from '@/store/user'
-import CourseBadge from '@/components/common/CourseBadge.vue'
+import AppFooter from '@/components/common/AppFooter.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -68,9 +70,13 @@ async function handleLogin() {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: #f0f2f5;
+}
+.login-center {
+  flex: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #f0f2f5;
 }
 .login-card {
   width: 400px;
