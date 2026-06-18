@@ -3,6 +3,7 @@ package com.shop.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +18,12 @@ public class Cart {
     private Long productId;
 
     private Integer quantity;
+
+    @TableField(exist = false)
+    private String productName;
+
+    @TableField(exist = false)
+    private BigDecimal productPrice;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;

@@ -50,11 +50,17 @@ public class CartServiceImpl implements CartService {
             cart.setQuantity(newQty);
             cartRepository.updateById(cart);
         } else {
-            Cart cart = new Cart();
-            cart.setUserId(userId);
-            cart.setProductId(request.getProductId());
-            cart.setQuantity(request.getQuantity());
-            cartRepository.insert(cart);
+            // 检查是否有被软删除的购物车记录（避免唯一键冲突）
+            Optional<Cart> deleted = cartRepository.findIncludingDeleted(userId, request.getProductId());
+            if (deleted.isPresent()) {
+                cartRepository.restoreDeleted(deleted.get().getId(), request.getQuantity());
+            } else {
+                Cart cart = new Cart();
+                cart.setUserId(userId);
+                cart.setProductId(request.getProductId());
+                cart.setQuantity(request.getQuantity());
+                cartRepository.insert(cart);
+            }
         }
     }
 
@@ -87,6 +93,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> listCartItems(Long userId) {
-        return cartRepository.findByUserId(userId);
+        List<Cart> carts = cartRepository.findByUserId(userId);
+        for (Cart cart : carts) {
+            Product product = productRepository.selectById(cart.getProductId());
+            if (product != null) {
+                cart.setProductName(product.getName());
+                cart.setProductPrice(product.getPrice());
+            }
+        }
+        return carts;
     }
 }
