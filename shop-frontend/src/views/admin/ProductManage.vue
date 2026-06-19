@@ -14,14 +14,16 @@
         <el-table-column label="状态" width="100">
           <template #default="{ row }">{{ row.status === 0 ? '上架' : '下架' }}</template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
-            <el-button size="small" @click="editProduct(row)">编辑</el-button>
-            <el-popconfirm title="确认下架该商品？" @confirm="handleDelete(row.id)">
-              <template #reference>
-                <el-button size="small" type="danger" link>下架</el-button>
-              </template>
-            </el-popconfirm>
+            <div class="action-cell">
+              <el-button size="small" @click="editProduct(row)">编辑</el-button>
+              <el-popconfirm title="确认下架该商品？" @confirm="handleDelete(row.id)">
+                <template #reference>
+                  <el-button size="small" type="danger" link>下架</el-button>
+                </template>
+              </el-popconfirm>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -147,5 +149,23 @@ async function handleDelete(id) {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+}
+:deep(.el-table) {
+  width: 100%;
+}
+:deep(.el-table .el-table__header-wrapper table),
+:deep(.el-table .el-table__body-wrapper table) {
+  width: 100% !important;
+}
+.action-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.action-cell .el-button {
+  margin-left: 0 !important;
+  flex-shrink: 0;
 }
 </style>

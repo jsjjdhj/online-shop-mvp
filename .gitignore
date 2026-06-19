@@ -10,6 +10,7 @@ shop-backend/target/
 *.war
 *.jar.original
 shop-backend/logs/
+*.err
 shop-backend/out/
 shop-backend/.settings/
 shop-backend/.project
@@ -35,6 +36,7 @@ Desktop.ini
 shop-frontend/node_modules/
 shop-frontend/dist/
 shop-frontend/.vite/
+.vite/
 shop-frontend/*.local
 
 # --- Python ---
@@ -52,8 +54,29 @@ venv/
 shop-backend/src/main/resources/application-local.yml
 
 # --- Test artifacts ---
+shop-frontend/test-results/
+shop-frontend/e2e-report/
 shop-frontend/tests/e2e/test-results/
 shop-frontend/tests/e2e/playwright-report/
+
+# --- Runtime logs ---
+logs/
+shop-backend/*.log
+shop-frontend/*.log
+
+# --- Merge artifacts ---
+diffs/
+compare_dirs.py
+generate_diffs.py
+merge_project.py
+merge_log.txt
+diff_summary.txt
+diff_files_summary.txt
+debug-*.md
+test.txt
+
+# --- Office temp files ---
+~$*
 
 # --- Temp files ---
 temp_*.sql

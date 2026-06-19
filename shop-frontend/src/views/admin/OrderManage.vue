@@ -13,10 +13,12 @@
             <el-tag :type="statusType(row.status)">{{ statusText(row.status) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
-            <el-button v-if="row.status === 0" size="small" type="primary" @click="handleConfirm(row)">确认</el-button>
-            <el-button v-if="row.status === 2" size="small" type="success" @click="handleShip(row)">发货</el-button>
+            <div class="action-cell">
+              <el-button v-if="row.status === 0" size="small" type="primary" @click="handleConfirm(row)">确认</el-button>
+              <el-button v-if="row.status === 2" size="small" type="success" @click="handleShip(row)">发货</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -82,5 +84,23 @@ async function handleShip(order) {
   margin: 24px auto;
   padding: 0 24px;
   width: 100%;
+}
+:deep(.el-table) {
+  width: 100%;
+}
+:deep(.el-table .el-table__header-wrapper table),
+:deep(.el-table .el-table__body-wrapper table) {
+  width: 100% !important;
+}
+.action-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.action-cell .el-button {
+  margin-left: 0 !important;
+  flex-shrink: 0;
 }
 </style>

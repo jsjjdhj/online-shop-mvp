@@ -19,15 +19,17 @@
             <el-tag :type="statusType(row.status)">{{ statusText(row.status) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="操作" width="220" fixed="right">
           <template #default="{ row }">
-            <el-button size="small" @click="$router.push('/orders/' + row.id)">详情</el-button>
-            <el-button v-if="row.status === 1" size="small" type="success" @click="handlePay(row)">付款</el-button>
-            <el-popconfirm v-if="row.status === 0 || row.status === 1" title="确认取消订单？" @confirm="handleCancel(row)">
-              <template #reference>
-                <el-button size="small" type="danger" link>取消</el-button>
-              </template>
-            </el-popconfirm>
+            <div class="action-cell">
+              <el-button size="small" @click="$router.push('/orders/' + row.id)">详情</el-button>
+              <el-button v-if="row.status === 1" size="small" type="success" @click="handlePay(row)">付款</el-button>
+              <el-popconfirm v-if="row.status === 0 || row.status === 1" title="确认取消订单？" @confirm="handleCancel(row)">
+                <template #reference>
+                  <el-button size="small" type="danger" link>取消</el-button>
+                </template>
+              </el-popconfirm>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -104,6 +106,24 @@ async function handleCancel(order) {
   margin: 24px auto;
   padding: 0 24px;
   width: 100%;
+}
+:deep(.el-table) {
+  width: 100%;
+}
+:deep(.el-table .el-table__header-wrapper table),
+:deep(.el-table .el-table__body-wrapper table) {
+  width: 100% !important;
+}
+.action-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.action-cell .el-button {
+  margin-left: 0 !important;
+  flex-shrink: 0;
 }
 .pagination-bar {
   display: flex;
