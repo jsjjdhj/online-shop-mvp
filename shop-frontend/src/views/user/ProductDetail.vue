@@ -10,7 +10,7 @@
       </el-descriptions>
 
       <div class="action-bar">
-        <el-input-number v-model="quantity" :min="1" :max="99" :disabled="product.stock === 0" />
+        <el-input-number v-model="quantity" :min="1" :max="Math.min(99, product.stock)" :disabled="product.stock === 0" />
         <el-button type="primary" :disabled="product.stock === 0" @click="addToCart" :loading="adding">
           加入购物车
         </el-button>

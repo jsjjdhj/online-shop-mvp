@@ -9,15 +9,17 @@ import java.math.BigDecimal;
 public class ProductRequest {
 
     @NotBlank(message = "商品名称不能为空")
-    @Size(max = 100, message = "商品名称不超过100个字符")
+    @Size(min = 2, max = 50, message = "商品名称长度为2-50个字符")
     private String name;
 
-    @Size(max = 2000, message = "商品描述不超过2000个字符")
+    @NotBlank(message = "商品描述不能为空")
+    @Size(min = 10, max = 500, message = "商品描述长度为10-500个字符")
     private String description;
 
     @NotNull(message = "商品价格不能为空")
     @DecimalMin(value = "0.01", message = "商品价格必须大于0")
     @DecimalMax(value = "999999.99", message = "商品价格超出范围")
+    @Digits(integer = 6, fraction = 2, message = "商品价格最多保留两位小数")
     private BigDecimal price;
 
     @NotNull(message = "库存数量不能为空")

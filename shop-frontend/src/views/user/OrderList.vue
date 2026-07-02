@@ -24,6 +24,7 @@
             <div class="action-cell">
               <el-button size="small" @click="$router.push('/orders/' + row.id)">详情</el-button>
               <el-button v-if="row.status === 1" size="small" type="success" @click="handlePay(row)">付款</el-button>
+              <el-button v-if="row.status === 3" size="small" type="success" @click="handleReceive(row)">确认收货</el-button>
               <el-popconfirm v-if="row.status === 0 || row.status === 1" title="确认取消订单？" @confirm="handleCancel(row)">
                 <template #reference>
                   <el-button size="small" type="danger" link>取消</el-button>
@@ -45,7 +46,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getOrderList, payOrder, cancelOrder } from '@/api/order'
+import { getOrderList, payOrder, cancelOrder, confirmReceipt } from '@/api/order'
 import NavHeader from '@/components/common/NavHeader.vue'
 import AppFooter from '@/components/common/AppFooter.vue'
 
@@ -89,6 +90,14 @@ async function handleCancel(order) {
   try {
     await cancelOrder(order.id)
     ElMessage.success('订单已取消')
+    loadOrders()
+  } catch {}
+}
+
+async function handleReceive(order) {
+  try {
+    await confirmReceipt(order.id)
+    ElMessage.success('已确认收货')
     loadOrders()
   } catch {}
 }

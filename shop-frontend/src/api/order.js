@@ -20,6 +20,10 @@ export function cancelOrder(orderId) {
   return request.post(`/orders/${orderId}/cancel`)
 }
 
+export function confirmReceipt(orderId) {
+  return request.post(`/orders/${orderId}/complete`)
+}
+
 export function confirmOrder(orderId) {
   return request.post(`/admin/orders/${orderId}/confirm`)
 }

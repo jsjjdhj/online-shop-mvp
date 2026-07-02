@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         // 检查账号是否锁定
         if (user.getStatus() == 1 && user.getLockTime() != null) {
             if (LocalDateTime.now().isBefore(user.getLockTime())) {
-                throw new BusinessException("账号已锁定，请15分钟后再试");
+                throw new BusinessException("账号已锁定，请 15 分钟后再试");
             }
             // 锁定到期，自动解锁
             user.setStatus(0);
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
                 user.setStatus(1);
                 user.setLockTime(LocalDateTime.now().plusMinutes(LOCK_DURATION_MINUTES));
                 userRepository.updateById(user);
-                throw new BusinessException("账号已锁定，请15分钟后再试");
+                throw new BusinessException("账号已锁定，请 15 分钟后再试");
             }
             userRepository.updateById(user);
             throw new BusinessException("用户名或密码错误");

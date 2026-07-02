@@ -71,6 +71,10 @@ async function loadProducts() {
 }
 
 function search() {
+  if (!keyword.value || !keyword.value.trim()) {
+    ElMessage.warning('请输入搜索内容')
+    return
+  }
   page.value = 1
   loadProducts()
 }

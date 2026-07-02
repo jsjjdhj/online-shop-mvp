@@ -44,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
         if (product == null || product.getDeleted() == 1) {
             throw new BusinessException("商品不存在");
         }
+        if (product.getStatus() != 0) {
+            throw new BusinessException("商品已下架");
+        }
         return product;
     }
 

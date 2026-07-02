@@ -5,10 +5,10 @@
         <h2>用户注册</h2>
         <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleRegister">
           <el-form-item prop="username">
-            <el-input v-model="form.username" placeholder="用户名（3-20位字母、数字或下划线）" prefix-icon="User" />
+            <el-input v-model="form.username" placeholder="用户名（6-20位，字母开头，仅含字母、数字或下划线）" prefix-icon="User" />
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="form.password" type="password" placeholder="密码（8-20位，需包含大小写字母和数字）" prefix-icon="Lock" show-password />
+            <el-input v-model="form.password" type="password" placeholder="密码（8-16位，需含大小写字母、数字和特殊字符）" prefix-icon="Lock" show-password />
           </el-form-item>
           <el-form-item prop="confirmPassword">
             <el-input v-model="form.confirmPassword" type="password" placeholder="确认密码" prefix-icon="Lock" show-password />
@@ -57,13 +57,13 @@ const form = reactive({
 const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度为3-20个字符', trigger: 'blur' },
-    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名只能包含字母、数字和下划线', trigger: 'blur' }
+    { min: 6, max: 20, message: '用户名长度为6-20个字符', trigger: 'blur' },
+    { pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/, message: '用户名必须以字母开头，仅含字母、数字和下划线', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 8, max: 20, message: '密码长度为8-20个字符', trigger: 'blur' },
-    { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, message: '密码必须包含大写字母、小写字母和数字', trigger: 'blur' }
+    { min: 8, max: 16, message: '密码长度为8-16个字符', trigger: 'blur' },
+    { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])/, message: '密码必须同时包含大写字母、小写字母、数字和特殊字符(@#$%^&*)', trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: '请确认密码', trigger: 'blur' },

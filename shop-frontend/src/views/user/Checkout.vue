@@ -63,12 +63,19 @@ const form = reactive({
 })
 
 const rules = {
-  recipientName: [{ required: true, message: '请输入收货人姓名', trigger: 'blur' }],
+  recipientName: [
+    { required: true, message: '请输入收货人姓名', trigger: 'blur' },
+    { min: 2, max: 20, message: '收货人姓名长度为2-20个字符', trigger: 'blur' },
+    { pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/, message: '收货人姓名仅限中文汉字或英文字母', trigger: 'blur' }
+  ],
   recipientPhone: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
     { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的11位手机号码', trigger: 'blur' }
   ],
-  recipientAddress: [{ required: true, message: '请输入详细地址', trigger: 'blur' }]
+  recipientAddress: [
+    { required: true, message: '请输入详细地址', trigger: 'blur' },
+    { min: 10, max: 100, message: '详细地址长度为10-100个字符', trigger: 'blur' }
+  ]
 }
 
 onMounted(async () => {

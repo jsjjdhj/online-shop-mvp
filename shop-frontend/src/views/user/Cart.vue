@@ -21,8 +21,8 @@
         </el-table-column>
         <el-table-column label="数量" width="200">
           <template #default="{ row }">
-            <el-input-number v-model="row.quantity" :min="1" :max="99" size="small"
-              @change="(val) => updateQuantity(row, val)" />
+            <el-input-number v-model="row.quantity" :min="0" :max="99" size="small"
+              @change="(val, oldVal) => updateQuantity(row, val, oldVal)" />
           </template>
         </el-table-column>
         <el-table-column label="小计" width="120">
@@ -43,7 +43,7 @@
 
       <div class="cart-footer" v-if="cartItems.length > 0">
         <span class="total-price">合计：¥{{ totalAmount }}</span>
-        <el-button type="primary" size="large" @click="$router.push('/checkout')">去结算</el-button>
+        <el-button type="primary" size="large" @click="goCheckout">去结算</el-button>
       </div>
     </div>
     <AppFooter />
@@ -52,12 +52,14 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { getCartList, updateCartItem, removeCartItem } from '@/api/cart'
 import { useCartStore } from '@/store/cart'
 import NavHeader from '@/components/common/NavHeader.vue'
 import AppFooter from '@/components/common/AppFooter.vue'
 
+const router = useRouter()
 const cartStore = useCartStore()
 const cartItems = ref([])
 
@@ -85,13 +87,33 @@ const totalAmount = computed(() => {
   }, 0).toFixed(2)
 })
 
-async function updateQuantity(row, val) {
+async function updateQuantity(row, val, oldVal) {
+  if (val === 0) {
+    try {
+      await ElMessageBox.confirm('确认移除该商品？', '提示', { type: 'warning' })
+      await removeCartItem(row.id)
+      cartItems.value = cartItems.value.filter(i => i.id !== row.id)
+      cartStore.fetchCartCount()
+      ElMessage.success('已移除')
+    } catch {
+      row.quantity = oldVal || 1
+    }
+    return
+  }
   try {
     await updateCartItem(row.id, { quantity: val })
     cartStore.fetchCartCount()
   } catch {
-    row.quantity = val
+    row.quantity = oldVal
   }
+}
+
+function goCheckout() {
+  if (cartItems.value.length === 0) {
+    ElMessage.warning('购物车中没有商品，无法结算')
+    return
+  }
+  router.push('/checkout')
 }
 
 async function removeItem(row) {

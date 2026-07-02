@@ -25,6 +25,10 @@
           <template #default="{ row }">¥{{ formatAmount(row.subtotal) }}</template>
         </el-table-column>
       </el-table>
+
+      <div class="action-bar" v-if="order.status === 3">
+        <el-button type="success" @click="handleReceive">确认收货</el-button>
+      </div>
     </div>
     <AppFooter />
   </div>
@@ -34,7 +38,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { getOrderDetail } from '@/api/order'
+import { getOrderDetail, confirmReceipt } from '@/api/order'
 import NavHeader from '@/components/common/NavHeader.vue'
 import AppFooter from '@/components/common/AppFooter.vue'
 
@@ -67,7 +71,7 @@ function formatTime(time) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
 }
 
-onMounted(async () => {
+async function loadDetail() {
   try {
     const res = await getOrderDetail(route.params.orderId)
     order.value = res.data.order
@@ -75,7 +79,17 @@ onMounted(async () => {
   } catch {
     ElMessage.error('加载订单详情失败')
   }
-})
+}
+
+async function handleReceive() {
+  try {
+    await confirmReceipt(route.params.orderId)
+    ElMessage.success('已确认收货')
+    loadDetail()
+  } catch {}
+}
+
+onMounted(() => loadDetail())
 </script>
 
 <style scoped>
@@ -96,5 +110,9 @@ onMounted(async () => {
   font-size: 18px;
   font-weight: 600;
   color: #303133;
+}
+.action-bar {
+  margin-top: 24px;
+  text-align: right;
 }
 </style>

@@ -39,7 +39,7 @@
           <el-input v-model="form.description" type="textarea" :rows="3" />
         </el-form-item>
         <el-form-item label="价格" prop="price">
-          <el-input-number v-model="form.price" :min="0.01" :precision="2" />
+          <el-input-number v-model="form.price" :min="0.01" :max="999999.99" :precision="2" />
         </el-form-item>
         <el-form-item label="库存" prop="stock">
           <el-input-number v-model="form.stock" :min="0" :max="99999" />
@@ -71,7 +71,14 @@ const formRef = ref(null)
 
 const form = reactive({ name: '', description: '', price: 0.01, stock: 1 })
 const rules = {
-  name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
+  name: [
+    { required: true, message: '请输入商品名称', trigger: 'blur' },
+    { min: 2, max: 50, message: '商品名称长度为2-50个字符', trigger: 'blur' }
+  ],
+  description: [
+    { required: true, message: '请输入商品描述', trigger: 'blur' },
+    { min: 10, max: 500, message: '商品描述长度为10-500个字符', trigger: 'blur' }
+  ],
   price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
   stock: [{ required: true, message: '请输入库存', trigger: 'blur' }]
 }

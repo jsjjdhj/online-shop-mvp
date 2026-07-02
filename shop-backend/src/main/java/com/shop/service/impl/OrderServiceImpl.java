@@ -10,6 +10,7 @@ import com.shop.entity.*;
 import com.shop.repository.*;
 import com.shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,11 +47,14 @@ public class OrderServiceImpl implements OrderService {
         }
         for (Cart cart : cartItems) {
             Product product = productRepository.selectById(cart.getProductId());
-            if (product == null || product.getStatus() != 0) {
-                throw new BusinessException("商品[" + cart.getProductId() + "]已下架");
+            if (product == null) {
+                throw new BusinessException("商品 [" + cart.getProductId() + "] 不存在");
+            }
+            if (product.getStatus() != 0) {
+                throw new BusinessException("商品 [" + product.getName() + "] 已下架");
             }
             if (cart.getQuantity() > product.getStock()) {
-                throw new BusinessException("商品[" + product.getName() + "]库存不足，当前库存为" + product.getStock());
+                throw new BusinessException("商品 [" + product.getName() + "] 库存不足，当前库存为 " + product.getStock());
             }
         }
         String orderNo = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
@@ -73,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
             Product product = productRepository.selectById(cart.getProductId());
             int affected = productRepository.deductStock(product.getId(), cart.getQuantity());
             if (affected == 0) {
-                throw new BusinessException("商品[" + product.getName() + "]库存不足");
+                throw new BusinessException("商品 [" + product.getName() + "] 库存不足，当前库存为 " + product.getStock());
             }
             OrderItem item = new OrderItem();
             item.setOrderId(order.getId());
@@ -207,6 +211,25 @@ public class OrderServiceImpl implements OrderService {
                 product.setStock(product.getStock() + item.getQuantity());
                 productRepository.updateById(product);
             }
+        }
+    }
+
+    /**
+     * 定时任务：自动取消超过 3 天未支付的订单并恢复对应商品库存。每小时执行一次。
+     */
+    @Scheduled(fixedDelay = 3600000)
+    @Transactional(rollbackFor = Exception.class)
+    public void autoCancelExpiredOrders() {
+        LocalDateTime deadline = LocalDateTime.now().minusDays(3);
+        List<Orders> expired = ordersRepository.selectList(
+                new LambdaQueryWrapper<Orders>()
+                        .in(Orders::getStatus, STATUS_PENDING, STATUS_CONFIRMED)
+                        .lt(Orders::getCreatedAt, deadline));
+        for (Orders order : expired) {
+            order.setStatus(STATUS_CANCELLED);
+            order.setCancelledAt(LocalDateTime.now());
+            ordersRepository.updateById(order);
+            restoreStock(order);
         }
     }
 }
